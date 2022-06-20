@@ -20,15 +20,10 @@ public class Main {
 
         // многопоточное решение
         now = System.currentTimeMillis();
-        int start = 0;
-        int end = arr.length;
-
-        final Integer middle = (end - start) / 2; // делим массив пополам
-        RecursiveTask<Integer> task1 = new ArraySum(start, middle, arr); // поток для подсчета суммы первой половины
-        RecursiveTask<Integer> task2 = new ArraySum(middle, end, arr); // поток для подсчета суммы второй половины
-        RecursiveTask.invokeAll(task1, task2); // пул двух потоков
+        final int start = 0;
+        sum = new RecursiveTaskForSum(start, arr.length, arr).compute();
         finish = System.currentTimeMillis();
-        System.out.printf("Сумма всех значений: %s. Время многопоточного решения %s мс\n", task1.join() + task2.join(), finish - now);
+        System.out.printf("Сумма всех значений: %s. Время многопоточного решения %s мс\n", sum, finish - now);
     }
 }
 
